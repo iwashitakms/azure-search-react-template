@@ -22,6 +22,8 @@ const createFilterExpression = (filterList, facets) => {
 
         if (facets[field] === 'array') {
             filterExpressions.push(`${field}/any(t: search.in(t, '${value}', ','))`);
+        } else if(facets[field] === 'int') {
+            filterExpressions.push(`${field} le ${value}`);
         } else {
             filterExpressions.push(`${field} eq '${value}'`);
         }
@@ -40,6 +42,8 @@ const readFacets = (facetString) => {
     facets.forEach(function (f) {
         if (f.indexOf('*') > -1) {
             output[f.replace('*', '')] = 'array';
+        } else if (f.indexOf('le_') > -1 ) {
+            output[f.replace('le_', '')] = 'int';
         } else {
             output[f] = 'string';
         }

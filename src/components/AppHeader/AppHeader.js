@@ -19,9 +19,6 @@ export default function AppHeader() {
             <li className="nav-item">
               <a className="nav-link" href="/Search">Search</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="https://azure.microsoft.com/services/search/">Learn more</a>
-            </li>
           </ul>
         </div>
 
