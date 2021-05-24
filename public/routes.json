@@ -27,27 +27,34 @@
       {
         "route": "/home",
         "serve": "/",
-        "statusCode": 301
+        "statusCode": 301,
+        "allowedRoles": ["authenticated"]
       },
       { 
-        "route": "/search" 
+        "route": "/search" ,
+        "allowedRoles": ["authenticated"]
       },
       { 
-        "route": "/api/search" 
+        "route": "/api/search",
+        "allowedRoles": ["authenticated"]
       },
       { 
-        "route": "/api/lookup" 
+        "route": "/api/lookup",
+        "allowedRoles": ["authenticated"]
       },
       { 
-        "route": "/api/suggest" 
+        "route": "/api/suggest",
+        "allowedRoles": ["authenticated"]
       },
       { 
-        "route": "/details/*" 
+        "route": "/details/*" ,
+        "allowedRoles": ["authenticated"]
       },
       {
         "route": "/*",
         "serve": "/",
-        "statusCode": 200
+        "statusCode": 200,
+        "allowedRoles": ["authenticated"]
       }
     ],
     "platformErrorOverrides": [
