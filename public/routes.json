@@ -57,6 +57,20 @@
         "allowedRoles": ["authenticated"]
       }
     ],
+    "responseOverrides": {
+      "400": {
+        "rewrite": "/index.html"
+      },
+      "401": {
+        "redirect": "/login",
+        "statusCode": 302
+      },
+      "403": {
+        "rewrite": "/index.html"
+      },
+      "404": {
+        "rewrite": "/index.html"
+      },
     "platformErrorOverrides": [
       {
         "errorType": "Unauthenticated",
