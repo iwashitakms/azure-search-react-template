@@ -70,7 +70,8 @@
       },
       "404": {
         "rewrite": "/index.html"
-      },
+      }
+    },
     "platformErrorOverrides": [
       {
         "errorType": "Unauthenticated",
