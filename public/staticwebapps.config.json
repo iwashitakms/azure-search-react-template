@@ -1,0 +1,13 @@
+{
+    "auth": {
+      "identityProviders": {
+        "azureActiveDirectory": {
+          "registration": {
+            "openIdIssuer": "TENANT_URL",
+            "clientIdSettingName": "AAD_CLIENT_ID",
+            "clientSecretSettingName": "AAD_CLIENT_SECRET"
+          }
+        }
+      }
+    }
+  }
