@@ -72,6 +72,7 @@ module.exports = async function (context, req) {
 
         // Creating SearchOptions for query
         let searchOptions = {
+            searchMode: 'all',
             top: top,
             skip: skip,
             includeTotalCount: true,
