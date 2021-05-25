@@ -31,7 +31,7 @@ export default function Result(props) {
                 });
 
                 //レスポンスヘッダからファイル名を取得します
-                const contentDisposition = decodeURI(response.headers["content-disposition"]);
+                const contentDisposition = response.headers["content-disposition"];
                 const fileName = getFileName(contentDisposition)
 
                 //ダウンロードします
