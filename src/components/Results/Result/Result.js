@@ -7,31 +7,24 @@ import { saveAs } from "file-saver";
 import axios from 'axios';
 
 export default function Result(props) {
-    function getFileName(contentDisposition){
-        let fileName = contentDisposition;
-        //デコードするとスペースが"+"になるのでスペースへ置換します
-        fileName = decodeURI(fileName).replace(/\+/g, " ");
-    
-        return fileName;
-    }
 
-    async function download (e) 
+    function download (e) 
     { 
-        const fileName = e.currentTarget.getAttribute("fileName")
+        // const fileName = e.currentTarget.getAttribute("fileName")
         
-        const body = {
-            fileName: encodeURIComponent(fileName)
-        };
+        // const body = {
+        //     fileName: encodeURIComponent(fileName)
+        // };
 
-        const response = await axios.post('/api/document', body, {
-            responseType: "blob"
-            });
+        // const response = await axios.post('/api/document', body, {
+        //     responseType: "blob"
+        //     });
 
-        const blob = new Blob([response.data], {
-                type: response.data.type
-            });
+        // const blob = new Blob([response.data], {
+        //         type: response.data.type
+        //     });
 
-        saveAs(blob, fileName);
+        // saveAs(blob, fileName);
     
     };
 
