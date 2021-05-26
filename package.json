@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "file-saver": "latest",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
@@ -12,6 +11,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
+    "file-saver": "latest",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",
