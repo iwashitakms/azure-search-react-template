@@ -15,28 +15,24 @@ export default function Result(props) {
         return fileName;
     }
 
-    function download (e) 
+    async function download (e) 
     { 
         const fileName = e.currentTarget.getAttribute("fileName")
-
+        
         const body = {
             fileName: encodeURIComponent(fileName)
         };
-        axios.post('/api/document', body, {
-                responseType: "blob"
-                })
-                .then(response => {
-                const blob = new Blob([response.data], {
-                    type: response.data.type
-                });
 
-                //レスポンスヘッダからファイル名を取得します
-                const contentDisposition = response.headers["content-disposition"];
-                const fileName = getFileName(contentDisposition)
+        const response = await axios.post('/api/document', body, {
+            responseType: "blob"
+            });
 
-                //ダウンロードします
-                saveAs(blob, fileName);
-        });
+        const blob = new Blob([response.data], {
+                type: response.data.type
+            });
+
+        saveAs(blob, fileName);
+    
     };
 
     return(
