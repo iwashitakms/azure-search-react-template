@@ -8,23 +8,23 @@ import axios from 'axios';
 
 export default function Result(props) {
 
-    function download (e) 
+    async function download (e) 
     { 
-        // const fileName = e.currentTarget.getAttribute("fileName")
+        const fileName = e.currentTarget.getAttribute("fileName")
         
-        // const body = {
-        //     fileName: encodeURIComponent(fileName)
-        // };
+        const body = {
+            fileName: encodeURIComponent(fileName)
+        };
 
-        // const response = await axios.post('/api/document', body, {
-        //     responseType: "blob"
-        //     });
+        const response = await axios.post('/api/document', body, {
+            responseType: "blob"
+            });
 
-        // const blob = new Blob([response.data], {
-        //         type: response.data.type
-        //     });
+        const blob = new Blob([response.data], {
+                type: response.data.type
+            });
 
-        // saveAs(blob, fileName);
+        saveAs(blob, fileName);
     
     };
 
