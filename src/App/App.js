@@ -12,6 +12,7 @@ import AppHeader from '../components/AppHeader/AppHeader';
 import Home from '../pages/Home/Home';
 import Search from '../pages/Search/Search';
 import Details from '../pages/Details/Details';
+import List from '../pages/List/List';
 
 // Bootstrap styles, optionally with jQuery and Popper
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -50,6 +51,7 @@ export default function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/search" component={Search} />
+            <Route path="/list" component={List} />
             <Route path="/details/:id" component={Details} />
           </Switch>
         </Router>

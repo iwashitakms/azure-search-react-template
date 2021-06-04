@@ -33,6 +33,8 @@ module.exports = async function (context, req) {
     try {
         
         const fileName = (req.query.fileName || (req.body && req.body.fileName));
+        const age = (req.query.age || (req.body && req.body.age));
+        const isDisable = (req.query.disable || (req.body && req.body.disable));
 
         if (!fileName || fileName === "") {
             throw 'invalid parameter fileName';
@@ -55,7 +57,8 @@ module.exports = async function (context, req) {
         context.res = {
             // status: 200, /* Defaults to 200 */
             headers: {
-                "Content-type": response.contentType
+                "Content-type": response.contentType,
+                "Content-Disposition": encodeURIComponent(filePath)
             },
             body: content
         };

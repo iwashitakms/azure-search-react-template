@@ -7,8 +7,9 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "@azure/search-documents": "^11.1.0",
     "@azure/storage-blob": "latest",
-    "@azure/search-documents": "^11.0.3"
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {}
 }

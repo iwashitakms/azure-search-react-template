@@ -11,6 +11,8 @@ export default function Result(props) {
     async function download (e) 
     { 
         const fileName = e.currentTarget.getAttribute("fileName")
+
+        const fileTitle = e.currentTarget.getAttribute("fileTitle")
         
         const body = {
             fileName: encodeURIComponent(fileName)
@@ -24,16 +26,12 @@ export default function Result(props) {
                 type: response.data.type
             });
 
-        saveAs(blob, fileName);
-    
+        saveAs(blob, decodeURIComponent(fileTitle));
     };
 
     return(
         <div>
-            <button onClick={download} fileName={props.document.metadata_storage_name}>{props.document.metadata_storage_name}</button>
-            {/* <a href={`/api/document/${props.document.metadata_storage_name}`}>
-                <h6 className="title-style">{props.document.metadata_storage_name}</h6>
-            </a> */}
+            <button onClick={download} fileName={props.document.metadata_storage_name} fileTitle={props.document.title} >{decodeURIComponent(props.document.title)}</button>
             <p>{props.document.content}</p>
         </div>
     );

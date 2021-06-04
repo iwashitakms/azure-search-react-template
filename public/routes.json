@@ -35,7 +35,15 @@
         "allowedRoles": ["reader"]
       },
       { 
+        "route": "/api/document/update",
+        "allowedRoles": ["reader"]
+      },
+      { 
         "route": "/search" ,
+        "allowedRoles": ["reader"]
+      },
+      { 
+        "route": "/list" ,
         "allowedRoles": ["reader"]
       },
       { 

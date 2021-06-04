@@ -4,6 +4,19 @@ const {
     newPipeline
 } = require('@azure/storage-blob');
 
+const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const apiKey = process.env["SearchApiKey"];
+const searchServiceName = process.env["SearchServiceName"];
+
+// Create a SearchClient to send queries
+const searchClient = new SearchIndexerClient(
+    `https://` + searchServiceName + `.search.windows.net/`,
+    new AzureKeyCredential(apiKey)
+);
+
+require("dotenv").config();
+
 const sharedKeyCredential = new StorageSharedKeyCredential(
   process.env.AZURE_STORAGE_ACCOUNT_NAME,
   process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY);
@@ -15,23 +28,12 @@ const blobServiceClient = new BlobServiceClient(
   pipeline
 );
 
-const streamToBuffer = async (readableStream) => {
-    return new Promise((resolve, reject) => {
-      const chunks = [];
-      readableStream.on('data', (data) => {
-        chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-      });
-      readableStream.on('end', () => {
-        resolve(Buffer.concat(chunks));
-      });
-      readableStream.on('error', reject);
-    });
-  };
-
 module.exports = async function (context, req) {
 
     try {
-        
+
+        console.log(req.body);
+
         const fileName = (req.query.fileName || (req.body && req.body.fileName));
 
         if (!fileName || fileName === "") {
@@ -39,6 +41,9 @@ module.exports = async function (context, req) {
         }
 
         const filePath = decodeURI(fileName);
+        
+        let age = (req.query.age || (req.body && req.body.age));
+        let disable = (req.query.disable || (req.body && req.body.disable));
 
         const containerName = process.env["ContainerName"];
 
@@ -46,18 +51,25 @@ module.exports = async function (context, req) {
 
         const blockBlobClient = containerClient.getBlockBlobClient(filePath);
 
-        const response = await blockBlobClient.download(0);
+        const metadata = {
+          age: age,
+          disable: disable.toString(),
+        };
 
-        const content = await streamToBuffer(
-            response.readableStreamBody,
-          );
+        console.log(metadata);
+
+        const response = await blockBlobClient.setMetadata(metadata);
+
+        console.log(apiKey);
+        console.log(searchServiceName);
+
+        await searchClient.runIndexer("azureblob-indexer");
 
         context.res = {
             // status: 200, /* Defaults to 200 */
             headers: {
-                "Content-type": response.contentType
             },
-            body: content
+            body: "success"
         };
 
     } catch (error) {

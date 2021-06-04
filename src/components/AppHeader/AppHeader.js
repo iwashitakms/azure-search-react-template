@@ -16,9 +16,8 @@ export default function AppHeader() {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <a className="nav-link" href="/Search">Search</a>
-            </li>
+            <a className="nav-link" href="/Search">Search</a>
+            <a className="nav-link" href="/List">List</a>
           </ul>
         </div>
 
