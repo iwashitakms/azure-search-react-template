@@ -8,7 +8,7 @@ const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-docum
 
 const apiKey = process.env["SearchApiKey"];
 const searchServiceName = process.env["SearchServiceName"];
-const indexName = process.env["SearchIndexName"];
+const indexerName = process.env["SearchIndexerName"];
 
 // Create a SearchClient to send queries
 const searchClient = new SearchIndexerClient(
@@ -64,7 +64,7 @@ module.exports = async function (context, req) {
         console.log(apiKey);
         console.log(searchServiceName);
 
-        await searchClient.runIndexer(indexName);
+        await searchClient.runIndexer(indexerName);
 
         context.res = {
             // status: 200, /* Defaults to 200 */

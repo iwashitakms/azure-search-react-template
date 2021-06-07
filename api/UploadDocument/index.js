@@ -22,7 +22,7 @@ const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-docum
 
 const apiKey = process.env["SearchApiKey"];
 const searchServiceName = process.env["SearchServiceName"];
-const indexName = process.env["SearchIndexName"];
+const indexerName = process.env["SearchIndexerName"];
 
 const searchClient = new SearchIndexerClient(
   `https://` + searchServiceName + `.search.windows.net/`,
@@ -61,15 +61,19 @@ module.exports = async function (context, req) {
         const blockBlobClient = containerClient.getBlockBlobClient(uuidv4());
 
         const metadata = {
-          title: file.filename,
+          title: encodeURIComponent(file.filename),
           disable: "false",
         };
 
         const blobOptions = { blobHTTPHeaders: { blobContentType: file.type }, metadata: metadata};
 
+        console.log("upload start");
+
         await blockBlobClient.upload(file.data, file.data.length, blobOptions);
 
-        await searchClient.runIndexer(indexName);
+        console.log("upload end");
+
+        await searchClient.runIndexer(indexerName);
 
         context.res = {
             // status: 200, /* Defaults to 200 */
