@@ -7,7 +7,6 @@ export default function UploadDocument() {
 
   const actionUrl = "/api/document/upload"
   const fileRef = useRef(null)
-  const [setState] = useState(false)
 
   // const handleSetImage = (e) => {
   //   if (!e.target.files) return
@@ -16,7 +15,6 @@ export default function UploadDocument() {
   // }
 
   const handleSubmitProfileIcon = () => {
-    setState(true);
 
     const param = new FormData()
     if (!fileRef.current.files[0]) return
