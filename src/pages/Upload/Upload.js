@@ -1,17 +1,13 @@
 import React from "react";
 import axios from 'axios';
 import { useRef, useState } from 'react';
-
-
 import "./Upload.css";
-import { AlarmTwoTone } from "@material-ui/icons";
-
 
 export default function UploadDocument() {
 
   const actionUrl = "/api/document/upload"
   const fileRef = useRef(null)
-  const [state, setState] = useState(false)
+  const [setState] = useState(false)
 
   // const handleSetImage = (e) => {
   //   if (!e.target.files) return
