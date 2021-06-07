@@ -26,7 +26,7 @@ export default function Result(props) {
              responseType: "json"
              });
 
-        alert(JSON.stringify(response));
+        alert(JSON.stringify(response.statusText));
     
     };
 

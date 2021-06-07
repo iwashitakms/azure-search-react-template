@@ -1,5 +1,4 @@
 const multipart = require('parse-multipart');
-const { v4: uuidv4 } = require('uuid');
 
 const {
     BlobServiceClient,
@@ -54,24 +53,28 @@ module.exports = async function (context, req) {
 
         const file = files[0];
 
+        console.log(file);
+
+        const fileName = (req.query.name);
+
+        var crypto = require('crypto');
+        var hash = crypto.createHash('md5').update(fileName).digest('hex');
+        console.log(hash); 
+
         const containerName = process.env["ContainerName"];
 
         const containerClient = blobServiceClient.getContainerClient(containerName);
 
-        const blockBlobClient = containerClient.getBlockBlobClient(uuidv4());
+        const blockBlobClient = containerClient.getBlockBlobClient(hash);
 
         const metadata = {
-          title: encodeURIComponent(file.filename),
+          title: encodeURIComponent(fileName),
           disable: "false",
         };
 
         const blobOptions = { blobHTTPHeaders: { blobContentType: file.type }, metadata: metadata};
 
-        console.log("upload start");
-
         await blockBlobClient.upload(file.data, file.data.length, blobOptions);
-
-        console.log("upload end");
 
         await searchClient.runIndexer(indexerName);
 

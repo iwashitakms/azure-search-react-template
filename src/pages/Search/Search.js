@@ -37,6 +37,8 @@ export default function Search() {
       filters: filters
     };
 
+    body.filters.push({field: 'disable', value: 'false'});
+
     axios.post( '/api/search', body)
         .then( response => {
             setResults(response.data.results);
