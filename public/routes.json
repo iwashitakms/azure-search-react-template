@@ -39,6 +39,10 @@
         "allowedRoles": ["reader"]
       },
       { 
+        "route": "/document",
+        "allowedRoles": ["reader"]
+      },
+      { 
         "route": "/search" ,
         "allowedRoles": ["reader"]
       },

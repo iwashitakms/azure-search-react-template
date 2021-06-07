@@ -18,6 +18,7 @@ export default function AppHeader() {
           <ul className="navbar-nav mr-auto">
             <a className="nav-link" href="/Search">Search</a>
             <a className="nav-link" href="/List">List</a>
+            <a className="nav-link" href="/Upload">Upload</a>
           </ul>
         </div>
 

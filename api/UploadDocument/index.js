@@ -1,3 +1,6 @@
+const multipart = require('parse-multipart');
+const { v4: uuidv4 } = require('uuid');
+
 const {
     BlobServiceClient,
     StorageSharedKeyCredential,
@@ -13,6 +16,17 @@ const pipeline = newPipeline(sharedKeyCredential);
 const blobServiceClient = new BlobServiceClient(
   `https://${process.env.AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net`,
   pipeline
+);
+
+const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const apiKey = process.env["SearchApiKey"];
+const searchServiceName = process.env["SearchServiceName"];
+const indexName = process.env["SearchIndexName"];
+
+const searchClient = new SearchIndexerClient(
+  `https://` + searchServiceName + `.search.windows.net/`,
+  new AzureKeyCredential(apiKey)
 );
 
 const streamToBuffer = async (readableStream) => {
@@ -31,36 +45,37 @@ const streamToBuffer = async (readableStream) => {
 module.exports = async function (context, req) {
 
     try {
-        
-        const fileName = (req.query.fileName || (req.body && req.body.fileName));
-        const age = (req.query.age || (req.body && req.body.age));
-        const isDisable = (req.query.disable || (req.body && req.body.disable));
+        console.log("upload");
+        console.log(req.body);
 
-        if (!fileName || fileName === "") {
-            throw 'invalid parameter fileName';
-        }
+        const boundary = multipart.getBoundary(req.headers["content-type"]);
 
-        const filePath = decodeURI(fileName);
+        const files = multipart.Parse(Buffer.from(req.body), boundary);
+
+        const file = files[0];
 
         const containerName = process.env["ContainerName"];
 
         const containerClient = blobServiceClient.getContainerClient(containerName);
 
-        const blockBlobClient = containerClient.getBlockBlobClient(filePath);
+        const blockBlobClient = containerClient.getBlockBlobClient(uuidv4());
 
-        const response = await blockBlobClient.download(0);
+        const metadata = {
+          title: file.filename,
+          disable: "false",
+        };
 
-        const content = await streamToBuffer(
-            response.readableStreamBody,
-          );
+        const blobOptions = { blobHTTPHeaders: { blobContentType: file.type }, metadata: metadata};
+
+        await blockBlobClient.upload(file.data, file.data.length, blobOptions);
+
+        await searchClient.runIndexer(indexName);
 
         context.res = {
             // status: 200, /* Defaults to 200 */
             headers: {
-                "Content-type": response.contentType,
-                "Content-Disposition": encodeURIComponent(filePath)
             },
-            body: content
+            body: true
         };
 
     } catch (error) {
